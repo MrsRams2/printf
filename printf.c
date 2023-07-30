@@ -40,6 +40,7 @@ return (printed_chars);
  * @args: The variable arguments list
  * Return: On success, returns the number of characters printed
  */
+
 int format_parser(const char *format, va_list args)
 {
 int i = 0, printed_chars = 0;
@@ -76,6 +77,7 @@ return (printed_chars);
  * @str: The string to be printed
  * Return: On success, returns the number of characters printed
  */
+
 int print_string(char *str)
 {
 int i = 0;
@@ -116,4 +118,3 @@ printed_chars++;
 
 return (printed_chars);
 }
-
