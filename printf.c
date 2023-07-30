@@ -1,6 +1,12 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "main.h"
+
+int _putchar(char c);
+int _printf(const char *format, ...);
+int format_parser(const char *format, va_list args);
+int print_string(const char *str);
+int print_number(int num);
 
 /**
  * _putchar - Custom putchar function to print a single character
@@ -47,9 +53,9 @@ while (format[i])
 if (format[i] == '%' && format[++i] != '%')
 {
 if (format[i] == 'c')
-_putchar(va_arg(args, int));
+printed_chars += _putchar(va_arg(args, int));
 else if (format[i] == 's')
-printed_chars += print_string(va_arg(args, char *));
+printed_chars += print_string(va_arg(args, const char *));
 else if (format[i] == 'd' || format[i] == 'i')
 printed_chars += print_number(va_arg(args, int));
 else
@@ -62,9 +68,9 @@ printed_chars += 2;
 else
 {
 _putchar(format[i]);
+printed_chars++;
 }
 i++;
-printed_chars++;
 }
 return (printed_chars);
 }
@@ -74,7 +80,7 @@ return (printed_chars);
  * @str: The string to be printed
  * Return: On success, returns the number of characters printed
  */
-int print_string(char *str)
+int print_string(const char *str)
 {
 int i = 0;
 
@@ -99,15 +105,27 @@ int print_number(int num)
 {
 int printed_chars = 0;
 
-if (num < 0)
+if (num == 0)
+{
+_putchar('0');
+return (1);
+}
+else if (num < 0)
 {
 _putchar('-');
 printed_chars++;
+if (num == INT_MIN)
+{
+printed_chars += print_number(-(num / 10));
+_putchar('8');
+return (printed_chars);
+}
 num = -num;
 }
 
 if (num / 10)
 printed_chars += print_number(num / 10);
+
 _putchar((num % 10) + '0');
 printed_chars++;
 
