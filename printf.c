@@ -49,16 +49,25 @@ while (format[i])
 {
 if (format[i] == '%' && format[++i] != '%')
 {
+if (format[i] == 'c')
+_putchar(va_arg(args, int));
+else if (format[i] == 's')
+printed_chars += print_string(va_arg(args, char *));
+else if (format[i] == 'd' || format[i] == 'i')
+printed_chars += print_number(va_arg(args, int));
+else
+{
 _putchar('%');
 _putchar(format[i]);
 printed_chars += 2;
 }
+}
 else
 {
 _putchar(format[i]);
-printed_chars++;
 }
 i++;
+printed_chars++;
 }
 return (printed_chars);
 }
@@ -91,7 +100,6 @@ return (i);
  * Return: On success, returns the number of characters printed
  */
 
-
 int print_number(int num)
 {
 int printed_chars = 0;
@@ -110,4 +118,3 @@ printed_chars++;
 
 return (printed_chars);
 }
-
