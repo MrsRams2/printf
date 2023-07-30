@@ -24,5 +24,10 @@ int format_parser(const char *format, va_list args);
 int format_handler(char format_specifier, va_list args);
 int print_string(char *str);
 int print_number(int num);
+int print_unsigned(unsigned int num);
+int print_octal(unsigned int num);
+int print_hexadecimal(unsigned int num, char format);
+int print_pointer(void *ptr);
+
 
 #endif
