@@ -1,32 +1,37 @@
+#include <stdio.h>
+#include <stdarg.h>
 #include "main.h"
 
 /**
- *  print_char - prints characters
- *  @args: the character argument
- *
- *  Return: void
+ * _putchar - Custom putchar function to print a single character
+ * @c: The character to be printed
+ * Return: On success, returns the number of characters printed
  */
-
-void print_char(va_list args)
+int _putchar(char c)
 {
-	char ch = va_arg(args, int);
-
-	_putchar(ch);
+return (write(1, &c, 1));
 }
 
 /**
- *  print_percent - prints the %
- *  @args: the argument to printt
- *
- *  Return: void
+ * _printf - Custom printf function that produces output according to a format
+ * @format: The format string
+ * Return: On success, returns the number of characters printed
  */
-
-void print_percent(va_list args)
-
+int _printf(const char *format, ...)
 {
-	(void)args;
-	_putchar('%');
+va_list args;
+int printed_chars = 0;
+
+if (!format)
+return (-1);
+
+va_start(args, format);
+printed_chars = format_parser(format, args);
+va_end(args);
+
+return (printed_chars);
 }
+
 /**
  * format_parser - Parses the format string and prints the output accordingly
  * @format: The format string
@@ -35,36 +40,35 @@ void print_percent(va_list args)
  */
 int format_parser(const char *format, va_list args)
 {
-	int i = 0, printed_chars = 0;
+int i = 0, printed_chars = 0;
 
-	while (format[i])
-	{
-		if (format[i] == '%' && format[++i] != '%')
-		{
-			if (format[i] == 'c')
-				_putchar(va_arg(args, int));
-			else if (format[i] == 's')
-				printed_chars += print_string(va_arg(args, char *));
-			else if (format[i] == 'd' || format[i] == 'i')
-				printed_chars += print_number(va_arg(args, int));
-			else
-			{
-				_putchar('%');
-				_putchar(format[i]);
-				printed_chars += 2;
-			}
-		}
-		else
-		{
-			_putchar(format[i]);
-		}
-		i++;
-		printed_chars++;
-	}
-
-
-	return (printed_chars);
+while (format[i])
+{
+if (format[i] == '%' && format[++i] != '%')
+{
+if (format[i] == 'c')
+_putchar(va_arg(args, int));
+else if (format[i] == 's')
+printed_chars += print_string(va_arg(args, char *));
+else if (format[i] == 'd' || format[i] == 'i')
+printed_chars += print_number(va_arg(args, int));
+else
+{
+_putchar('%');
+_putchar(format[i]);
+printed_chars += 2;
 }
+}
+else
+{
+_putchar(format[i]);
+}
+i++;
+printed_chars++;
+}
+return (printed_chars);
+}
+
 /**
  * print_string - Prints a string
  * @str: The string to be printed
@@ -72,17 +76,20 @@ int format_parser(const char *format, va_list args)
  */
 int print_string(char *str)
 {
-	int i = 0;
+int i = 0;
 
-	if (!str)
-		str = "(null)";
-	while (str[i] != '\0')
-	{
-		_putchar(str[i]);
-		i++;
-	}
-	return (i);
+if (!str)
+str = "(null)";
+
+while (str[i])
+{
+_putchar(str[i]);
+i++;
 }
+
+return (i);
+}
+
 /**
  * print_number - Prints a signed integer
  * @num: The integer to be printed
@@ -90,17 +97,20 @@ int print_string(char *str)
  */
 int print_number(int num)
 {
-	int printed_chars = 0;
+int printed_chars = 0;
 
-	if (num < 0)
-	{
-		_putchar('-');
-		printed_chars++;
-		num = -num;
-	}
-	if (num / 10)
-		printed_chars += print_number(num / 10);
-	_putchar((num % 10) + '0');
-	printed_chars++;
-	return (printed_chars);
+if (num < 0)
+{
+_putchar('-');
+printed_chars++;
+num = -num;
 }
+
+if (num / 10)
+printed_chars += print_number(num / 10);
+_putchar((num % 10) + '0');
+printed_chars++;
+
+return (printed_chars);
+}
+
