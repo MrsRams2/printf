@@ -28,6 +28,6 @@ int print_unsigned(unsigned int num);
 int print_octal(unsigned int num);
 int print_hexadecimal(unsigned int num, char format);
 int print_pointer(void *ptr);
-
+int my_printf(const char* format, ...);
 
 #endif
